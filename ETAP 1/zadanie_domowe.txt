@@ -1,0 +1,10 @@
+﻿Na podany przez prowadz�cego temat każda grupa 2 osobowa powinna przygotować w domu:
+* króki opis tematu oraz spis założeń,
+* diagramy,
+* skrypty:
+	# tworzący bazę danych,
+	# modyfikujący bazę danych,
+	# usuwający bazę danych.
+
+Uwaga!
+Oceniane będą tylko instrukcje, które zostaną wykonane bez błędów przez serwer Oracle.

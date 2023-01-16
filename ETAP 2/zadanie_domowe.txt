@@ -1,0 +1,27 @@
+Na podany temat kazda grupa 2 osobowa powinna przygotowac nastepujace skrypty (*.sql):
+1. Tworzacy po jednej sekwencji dla kazdego klucza glownego.
+2. Usuwajacy wszystkie sekwencje.
+3. Zawierajacy co najmniej 5-10 polecen INSERT dla kazdej tabeli.
+4. Zawierajacy po jednej instrukcji INSERT naruszajacej kazdy z typow ograniczen (np. UNIQUE, NOT NULL, CHECK, klucza g³ównego, klucza obcego, itp) dla dowolnej tabeli.
+5. Modyfikujacy dowolnie wybrana tabele: 
+ * dodajacy kolumne (np. test VARCHAR2(20)),
+ * dodajacy ograniczenia do dodanej kolumny (np. NOT NULL),
+ * usuwajacy ograniczenia dotyczace dodanej kolumny,
+ * usuwajacy dodana kolumne.
+6. Usuwajacy wszystkie wiersze ze wszystkich tabel.
+7. Zawierajacy co najmniej 10 – 15 zaawansowanych zapytan / widokow wykorzystuj¹cych np.:
+ * MIN, MAX, SUM, AVG, COUNT,
+ * GROUP BY,
+ * HAVING,
+ * ORDER BY,
+ * UNION, INTERSECT, MINUS,
+ * EXISTS, IN, ALL, ANY,
+ * CASE,
+ * zlaczenie,
+ * podzapytania,
+ * funkcje np. do obslugi dat, testow, liczb, itd.,
+ * zapytania z parametrem,
+ * itp.
+Instrukcje bardzo proste (np. dotyczace tylko jednej tabeli: SELECT * FROM dual) nie beda oceniane. Instrukcje skopiowane z wykladu lub instrukcji laboratoryjnych (ze zmienionymi nazwami tabel np. SELECT * FROM pracownik WHERE wynagrodzenia > (SELECT AVG (wynagrodzenie) FROM pracownik)) nie bedd oceniane.
+
+Prosze przyniesc wszystkie materialy stworzone podczas poprzedniej pracy domowej.
