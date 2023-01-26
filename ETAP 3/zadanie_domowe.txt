@@ -1,0 +1,11 @@
+Na podany temat kazda grupa 2 osobowa powinna przygotowac nastepujace skrypty (*.sql):
+1. Tworzacy co najmniej 7 - 10 procedur oraz funkcji zapewniajacych pelna obsluge bazy danych.
+2. Usuwajacy procedury oraz funkcje.
+3. Tworzacy co najmniej 5-10 wyzwalaczy.
+4. Usuwajacy wyzwalacze.
+
+Do wszystkich procedur, funkcji oraz wyzwalaczy powinien zostac dodany fragment kodu testujacy ich dzialanie. Wszystkie podprogramy powinny znalezc sie w utworzonym pakiecie. 
+
+Podprogramy bardzo proste oraz skopiowane z wykladu lub instrukcji laboratoryjnych (po zmianie nazw tabel) nie beda oceniane. W skryptach nalezy co najmniej raz uzyc: instrukcji SELECT INTO, kursora, kursora z co najmniej jednym parametrem, wlasnego wyjatku, bledu aplikacji oraz pakietu DBMS_RANDOM. 
+
+Prosze przyniesc wszystkie materialy stworzone podczas poprzednich prac domowych.
