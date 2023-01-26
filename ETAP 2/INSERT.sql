@@ -61,7 +61,7 @@ VALUES (producenci_seq.nextval, 'Epson', '901234567', 'epson@email.com');
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO kategoria (ID_kategorii, nazwa_kategorii)
-VALUES (kategoria_seq.nextval, 'Smartphon');
+VALUES (kategoria_seq.nextval, 'Smartphone');
 
 INSERT INTO kategoria (ID_kategorii, nazwa_kategorii)
 VALUES (kategoria_seq.nextval, 'Drukarka');
