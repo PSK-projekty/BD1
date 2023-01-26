@@ -168,4 +168,63 @@ SET SERVEROUTPUT ON;
                 CLOSE v_cursor;
             END;
         END;
-    /    
+    /   
+   
+    
+--8 Pakiet zapewniaj¹cy obs³ugê tabeli produkty
+
+    CREATE OR REPLACE PACKAGE produkty_pkg AS
+        PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena_sprzedazy IN      NUMBER);
+        PROCEDURE usun_produkt(v_id_produktu IN NUMBER);
+        PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena IN  NUMBER);
+    END produkty_pkg;
+
+    /
+
+    CREATE OR REPLACE PACKAGE BODY produkty_pkg AS
+        PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena_sprzedazy IN      NUMBER)IS
+            BEGIN
+                INSERT INTO produkty (id_produktu, id_kategorie_producenci, nazwa_produktu, wersja, cena_sprzedazy)
+                VALUES(PRODUKTY_SEQ.nextval, v_id_kategorii, v_nazwa, v_wersja, v_cena_sprzedazy);
+        END dodaj_produkt;
+        
+        PROCEDURE usun_produkt(v_id_produktu IN NUMBER) IS
+            BEGIN
+                DELETE FROM produkty WHERE id_produktu = v_id_produktu;
+        END usun_produkt;
+            
+        PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena IN  NUMBER)  IS
+            BEGIN
+                UPDATE produkty 
+                SET nazwa_produktu = v_nazwa, wersja= v_wersja, cena_sprzedazy = v_cena 
+                WHERE id_produktu = v_id_produktu;
+        END aktualizuj_produkt;
+            
+    END produkty_pkg;
+    /
+
+--9 i 10 Procedury potrzebne do obs³ugi wyzwalacza
+
+     CREATE OR REPLACE PROCEDURE zwolnij_pracownika(n_id_pracownika IN NUMBER) AS
+     BEGIN
+         UPDATE pracownicy
+         SET data_zwolnienia = SYSDATE
+         WHERE id_pracownika = n_id_pracownika;
+     END;
+     /
+  
+     CREATE OR REPLACE PROCEDURE usun_login_haslo AS
+     BEGIN
+         DECLARE
+         v_count NUMBER;
+             BEGIN
+                 SELECT COUNT(*) INTO v_count FROM temp_pracownicy;
+                 IF v_count > 0 THEN
+                     UPDATE pracownicy
+                     SET login = (SELECT login FROM temp_pracownicy WHERE ID_pracownika = pracownicy.ID_pracownika),
+                     haslo = (SELECT haslo FROM temp_pracownicy WHERE ID_pracownika = pracownicy.ID_pracownika)
+                     WHERE ID_pracownika IN (SELECT ID_pracownika FROM temp_pracownicy);
+                 END IF;
+         END;
+     END;
+     /

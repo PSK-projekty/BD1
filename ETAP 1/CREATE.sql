@@ -76,7 +76,7 @@ CREATE TABLE pracownicy (
     ID_adres NUMBER(2) NOT NULL CONSTRAINT pracownik_adres_FK REFERENCES adresy(ID_adres),
     ID_kontakt NUMBER(2) NOT NULL CONSTRAINT pracownik_kontakt_FK REFERENCES kontakty(ID_kontakt),
     login NUMBER(10),
-    haslo VARCHAR2(45) NOT NULL,
+    haslo VARCHAR2(45),
     imie VARCHAR2(45) NOT NULL,
     nazwisko VARCHAR2(45) NOT NULL,
     data_zatrudnienia DATE NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE faktura (
     nr_faktury NUMBER(10) NOT NULL UNIQUE,
     data_wystawienia DATE NOT NULL,
     wartosc_netto NUMBER(10,2) NOT NULL,
-    wartosc_brutto NUMBER(10,2) NOT NULL,
+    wartosc_brutto NUMBER(10,2),
     nazwa_banku VARCHAR2(45) NOT NULL,
     forma_platnosci VARCHAR2(45) NOT NULL
 );
@@ -109,6 +109,12 @@ CREATE TABLE pozycje_faktury (
     ID_faktura NUMBER(6) NOT NULL CONSTRAINT pozycja_faktury_faktura_FK REFERENCES faktura(ID_faktury),
     ID_egzemplarz NUMBER(6) NOT NULL CONSTRAINT pozycja_faktury_egzemplarz_FK REFERENCES egzemplarze(ID_egzemplarz)
 );
+
+CREATE GLOBAL TEMPORARY TABLE temp_pracownicy (
+  ID_pracownika NUMBER(2),
+  login NUMBER(10),
+  haslo VARCHAR2(45)
+) ON COMMIT DELETE ROWS;
 
 
 COMMIT;
