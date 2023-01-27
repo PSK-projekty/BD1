@@ -1,0 +1,13 @@
+HOST CLS
+@'8/1SQL.sql'
+@'8/2SQL.sql'
+@'8/3SQL.sql'
+@'8/4SQL.sql'
+@'8/5SQL.sql'
+@'1/1SQL.sql'
+@'1/2SQL.sql'
+@'3/main.sql'
+@'1/3SQL.sql'
+@'1/4SQL.sql'
+@'1/5SQL.sql'
+@'2/1SQL.sql'

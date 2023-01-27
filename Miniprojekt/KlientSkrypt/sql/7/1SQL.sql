@@ -1,0 +1,5 @@
+SET ECHO ON
+
+DELETE FROM pracownicy;
+
+SET ECHO OFF

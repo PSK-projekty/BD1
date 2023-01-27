@@ -1,0 +1,9 @@
+SET ECHO ON
+
+DROP PACKAGE BODY obsluga_bazy;
+
+DROP PACKAGE obsluga_bazy;
+
+COMMIT;
+
+SET ECHO OFF

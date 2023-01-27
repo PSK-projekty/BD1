@@ -1,0 +1,24 @@
+$CLS
+PROMPT Menu:
+PROMPT
+PROMPT 0. KONIEC
+PROMPT 1. CREATE
+PROMPT 2. INSERT
+PROMPT 3. ALTER
+PROMPT 4. DELETE
+PROMPT 5. SELECT
+PROMPT 6. EXECUTE
+PROMPT 7. TEST TRIGGERS
+PROMPT 8. DROP
+PROMPT 9. DOWOLNA INSTRUKCJA
+PROMPT A. STWORZ BAZE (zostana wykonane niezbedne instrukcje takie jaka DELETE, CREATE, ALTER oraz INSERT)
+PROMPT B. USUN BAZE (posprzatam po sobie, usune wszystko co stworzylem)
+PROMPT
+ACCEPT wybor CHAR FORMAT 'A1' DEFAULT '0' PROMPT 'WYBIERZ OPCJE 0-B: '
+$CLS
+PROMPT wybor = &wybor
+@&wybor\main.sql &wybor
+PROMPT 
+PROMPT # Wcisnij ENTER #
+PAUSE
+@main.sql
