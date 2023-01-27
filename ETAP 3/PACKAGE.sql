@@ -1,9 +1,28 @@
+SET SERVEROUT ON;
 
-SET SERVEROUTPUT ON;
+CREATE OR REPLACE PACKAGE obsluga_bazy AS
+    
+    PROCEDURE aktualizuj_cene (p_nazwa_produktu IN VARCHAR2 , p_wersja IN VARCHAR2, o_ile IN NUMBER);
+    PROCEDURE aktualizuj_hasla;
+    PROCEDURE klienci_miasta(p_miasto IN VARCHAR2);
+    PROCEDURE produkty_kategorie (p_nazwa_kategorii IN VARCHAR2);
+    PROCEDURE podliczenie_okresowe(Data_poczatkowa VARCHAR2, Data_koncowa VARCHAR2);
+    FUNCTION kategorie_klienci(p_ID_kategorii IN NUMBER);
+    PROCEDURE wyswietl_klientow(numer_kategorii IN NUMBER);
+    PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena_sprzedazy IN NUMBER);
+    PROCEDURE usun_produkt(v_id_produktu IN NUMBER);
+    PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena IN  NUMBER);
+    PROCEDURE wyjatki_zamowienia(p_id IN NUMBER);
+    PROCEDURE zwolnij_pracownika(n_id_pracownika IN NUMBER);
+    PROCEDURE usun_login_haslo;
 
---1 Procedura aktualizuj¹ca cenê produktu
+END obsluga_bazy;
 
-    CREATE OR REPLACE PROCEDURE aktualizuj_cene (p_nazwa_produktu IN VARCHAR2 , p_wersja IN VARCHAR2, o_ile IN NUMBER) AS
+/
+
+create or replace PACKAGE BODY obsluga_bazy AS
+    
+    PROCEDURE aktualizuj_cene (p_nazwa_produktu IN VARCHAR2 , p_wersja IN VARCHAR2, o_ile IN NUMBER) AS
         CURSOR c_produkty IS
             SELECT ID_produktu, cena_sprzedazy 
             FROM produkty
@@ -17,19 +36,15 @@ SET SERVEROUTPUT ON;
                 FETCH c_produkty
                 INTO v_produkt_id, v_aktualna_cena;
                 EXIT WHEN c_produkty%NOTFOUND;
-    
+
                 UPDATE produkty 
                 SET cena_sprzedazy = v_aktualna_cena + o_ile 
                 WHERE ID_produktu = v_produkt_id;
             END LOOP;
         CLOSE c_produkty;
     END;
-    /
 
-
---2 Procedura aktualizuj¹ca has³a pracowników
-
-    CREATE OR REPLACE PROCEDURE aktualizuj_hasla AS
+    PROCEDURE aktualizuj_hasla AS
         CURSOR c_pracownicy IS
         SELECT ID_pracownika, login FROM pracownicy;
         v_id_pracownika NUMBER;
@@ -48,12 +63,8 @@ SET SERVEROUTPUT ON;
         END LOOP;
         CLOSE c_pracownicy;
     END;
-    /
 
-
---3 Procedura wyœwietlaj¹ca klientów z danego miasta
-
-    CREATE OR REPLACE PROCEDURE klienci_miasta(p_miasto IN VARCHAR2)
+    PROCEDURE klienci_miasta(p_miasto IN VARCHAR2)
     AS
         CURSOR c_klienci (p_nazwa_miasta IN VARCHAR2) IS
         SELECT klienci.nazwisko, klienci.imie, klienci.id_klienta, adresy.miasto
@@ -73,12 +84,8 @@ SET SERVEROUTPUT ON;
         END LOOP;
         CLOSE c_klienci;
     END;
-    /
- 
 
---4 Procedura wyœwietlaj¹ca produkty i producentów z danej kategorii
-
-    CREATE OR REPLACE PROCEDURE produkty_kategorie (p_nazwa_kategorii IN VARCHAR2) AS
+    PROCEDURE produkty_kategorie (p_nazwa_kategorii IN VARCHAR2) AS
         CURSOR c_produkty IS
             SELECT produkty.nazwa_produktu, producenci.nazwa_producenta
             FROM produkty
@@ -86,7 +93,7 @@ SET SERVEROUTPUT ON;
             JOIN producenci ON kategorie_producenci.ID_producenta = producenci.ID_producenta
             JOIN kategoria ON kategorie_producenci.ID_kategorii = kategoria.ID_kategorii
             WHERE kategoria.nazwa_kategorii = p_nazwa_kategorii;
-    
+
             v_nazwa_produktu VARCHAR2(45);
             v_nazwa_producenta VARCHAR2(45);
     BEGIN
@@ -99,12 +106,9 @@ SET SERVEROUTPUT ON;
         END LOOP;
         CLOSE c_produkty;
     END;
-    /
 
 
---5 Procedura generuj¹ca podsumownie okresowe
-
-    CREATE OR REPLACE PROCEDURE podliczenie_okresowe(Data_poczatkowa VARCHAR2, Data_koncowa VARCHAR2) IS
+   PROCEDURE podliczenie_okresowe(Data_poczatkowa VARCHAR2, Data_koncowa VARCHAR2) IS
       netto NUMBER(10,2);
       brutto NUMBER(10,2);
       vat NUMBER(10,2);
@@ -113,18 +117,14 @@ SET SERVEROUTPUT ON;
       INTO brutto, netto
       FROM faktura
       WHERE data_wystawienia BETWEEN TO_DATE(Data_poczatkowa,'DD.MM.YYYY') AND TO_DATE(Data_koncowa,'DD.MM.YYYY');
-    
+
       VAT:=BRUTTO-NETTO;
       DBMS_OUTPUT.PUT_LINE('Zarobek netto w podanym okresie: ' || netto || ' Z£.');
       DBMS_OUTPUT.PUT_LINE('Zarobek brutto w podanym okresie: '|| brutto || ' Z£.');
       DBMS_OUTPUT.PUT_LINE('VAT do zaplacenia w podanym okresie: ' || vat || ' Z£.');
     END;
-    /
 
-
---6 Funkcja licz¹ca sumê jak¹ wydali klienci w danej kategorii
-
-    CREATE OR REPLACE FUNCTION kategorie_klienci(p_ID_kategorii IN NUMBER)
+    FUNCTION kategorie_klienci(p_ID_kategorii IN NUMBER)
     RETURN SYS_REFCURSOR
     AS
         v_najlepsi_klienci SYS_REFCURSOR;
@@ -143,12 +143,8 @@ SET SERVEROUTPUT ON;
         ORDER BY suma DESC;
         RETURN v_najlepsi_klienci;
     END;
-    /
 
-
---7 Procedura wspó³pracuje z funkcj¹ kategorie_klienci
-    
-    CREATE OR REPLACE PROCEDURE wyswietl_klientow(numer_kategorii IN NUMBER) AS
+    PROCEDURE wyswietl_klientow(numer_kategorii IN NUMBER) AS
         BEGIN
             DECLARE
                 v_cursor SYS_REFCURSOR;
@@ -168,40 +164,28 @@ SET SERVEROUTPUT ON;
                 CLOSE v_cursor;
             END;
         END;
-    /   
-   
-    
---8 Pakiet zapewniaj¹cy obs³ugê tabeli produkty
 
-        CREATE OR REPLACE PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena_sprzedazy IN NUMBER)IS
+        PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena_sprzedazy IN NUMBER)IS
             BEGIN
                 INSERT INTO produkty (id_produktu, id_kategorie_producenci, nazwa_produktu, wersja, cena_sprzedazy)
                 VALUES(PRODUKTY_SEQ.nextval, v_id_kategorii, v_nazwa, v_wersja, v_cena_sprzedazy);
         END;
 
-        /
-
-        CREATE OR REPLACE PROCEDURE usun_produkt(v_id_produktu IN NUMBER) IS
+        PROCEDURE usun_produkt(v_id_produktu IN NUMBER) IS
             BEGIN
                 DELETE FROM produkty WHERE id_produktu = v_id_produktu;
         END;
 
-        /
-            
-        CREATE OR REPLACE PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena IN  NUMBER)  IS
+        PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena IN  NUMBER)  IS
             BEGIN
                 UPDATE produkty 
                 SET nazwa_produktu = v_nazwa, wersja= v_wersja, cena_sprzedazy = v_cena 
                 WHERE id_produktu = v_id_produktu;
         END;      
-        /
 
-
---9 Procedura sprawdza daty w tabeli zamowienia dla podanego id_zamowienia
-
-    CREATE OR REPLACE PROCEDURE wyjatki_zamowienia(p_id IN NUMBER) AS
+        PROCEDURE wyjatki_zamowienia(p_id IN NUMBER) AS
     niepoprawna_data EXCEPTION;
-    
+
     BEGIN
         DECLARE
             p_data_zlozenia_zamowienia zamowienie.data_zlozenia_zamowienia%TYPE;
@@ -215,7 +199,7 @@ SET SERVEROUTPUT ON;
                 p_data_wysylki
             FROM zamowienie
             WHERE zamowienie.id_zamowienia = p_id;
-            
+
             IF(p_data_zlozenia_zamowienia > SYSDATE) THEN
                 RAISE niepoprawna_data;
              END IF;
@@ -224,25 +208,21 @@ SET SERVEROUTPUT ON;
             ELSE
                 DBMS_OUTPUT.PUT_LINE('Daty sie zgadzaja');
             END IF;
-           
+
            EXCEPTION
             WHEN niepoprawna_data THEN
                 DBMS_OUTPUT.PUT_LINE('Wprowadzona data jest wiêksza ni¿ systemowa, sprawdŸ to proszê');
         END;
     END;
-/
 
---10 i 11 Procedury potrzebne do obs³ugi wyzwalacza
-
-     CREATE OR REPLACE PROCEDURE zwolnij_pracownika(n_id_pracownika IN NUMBER) AS
+    PROCEDURE zwolnij_pracownika(n_id_pracownika IN NUMBER) AS
      BEGIN
          UPDATE pracownicy
          SET data_zwolnienia = SYSDATE
          WHERE id_pracownika = n_id_pracownika;
      END;
-     /
-  
-     CREATE OR REPLACE PROCEDURE usun_login_haslo AS
+
+     PROCEDURE usun_login_haslo AS
      BEGIN
          DECLARE
          v_count NUMBER;
@@ -256,4 +236,7 @@ SET SERVEROUTPUT ON;
                  END IF;
          END;
      END;
-     /
+
+END obsluga_bazy;
+    
+    

@@ -15,6 +15,14 @@ DROP PROCEDURE usun_login_haslo;
 
 DROP PROCEDURE zwolnij_pracownika;
 
+DROP PROCEDURE wyjatki_zamowienia;
+
+DROP PROCEDURE dodaj_produkt;
+
+DROP PROCEDURE aktualizuj_produkt;
+
+DROP PROCEDURE usun_produkt;
+
 DROP FUNCTION kategorie_klienci;
 
 DROP TRIGGER trg_prevent_delete_pracownicy;

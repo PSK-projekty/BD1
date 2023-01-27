@@ -5,7 +5,7 @@ ALTER TABLE adresy
     );
 
 ALTER TABLE pracownicy
-    MODIFY login VARCHAR2(45) NOT NULL UNIQUE;
+    MODIFY login VARCHAR2(45) UNIQUE;
 
 ALTER TABLE egzemplarze
     DROP COLUMN dodatkowa;

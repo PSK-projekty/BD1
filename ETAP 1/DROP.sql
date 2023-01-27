@@ -24,4 +24,6 @@ DROP TABLE kategoria;
 
 DROP TABLE producenci;
 
+DROP TABLE temp_pracownicy;
+
 COMMIT;

@@ -650,7 +650,14 @@ INSERT INTO zamowienie (ID_zamowienia, ID_klienta, data_zlozenia_zamowienia, czy
 VALUES (ZAMOWIENIE_SEQ.nextval, 4, TO_DATE('30.12.2022','DD.MM.YYYY'), 'Nie', NULL, 'Nie');
 
 INSERT INTO zamowienie (ID_zamowienia, ID_klienta, data_zlozenia_zamowienia, czy_zaplacono, data_wysylki, czy_zrealizowano ) 
+VALUES (ZAMOWIENIE_SEQ.nextval, 5, TO_DATE('05.01.2023','DD.MM.YYYY'), 'Tak', TO_DATE('07.01.2025', 'DD.MM.YYYY'), 'Tak');
+
+INSERT INTO zamowienie (ID_zamowienia, ID_klienta, data_zlozenia_zamowienia, czy_zaplacono, data_wysylki, czy_zrealizowano ) 
+VALUES (ZAMOWIENIE_SEQ.nextval, 5, TO_DATE('05.01.2025','DD.MM.YYYY'), 'Tak', TO_DATE('07.01.2022', 'DD.MM.YYYY'), 'Tak');
+
+INSERT INTO zamowienie (ID_zamowienia, ID_klienta, data_zlozenia_zamowienia, czy_zaplacono, data_wysylki, czy_zrealizowano ) 
 VALUES (ZAMOWIENIE_SEQ.nextval, 5, TO_DATE('05.01.2023','DD.MM.YYYY'), 'Tak', TO_DATE('07.01.2022', 'DD.MM.YYYY'), 'Tak');
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
