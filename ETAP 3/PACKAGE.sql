@@ -7,7 +7,7 @@ CREATE OR REPLACE PACKAGE obsluga_bazy AS
     PROCEDURE klienci_miasta(p_miasto IN VARCHAR2);
     PROCEDURE produkty_kategorie (p_nazwa_kategorii IN VARCHAR2);
     PROCEDURE podliczenie_okresowe(Data_poczatkowa VARCHAR2, Data_koncowa VARCHAR2);
-    FUNCTION kategorie_klienci(p_ID_kategorii IN NUMBER);
+    FUNCTION kategorie_klienci(p_ID_kategorii IN NUMBER) RETURN SYS_REFCURSOR;
     PROCEDURE wyswietl_klientow(numer_kategorii IN NUMBER);
     PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena_sprzedazy IN NUMBER);
     PROCEDURE usun_produkt(v_id_produktu IN NUMBER);
@@ -21,7 +21,9 @@ END obsluga_bazy;
 /
 
 create or replace PACKAGE BODY obsluga_bazy AS
-    
+
+--1 Procedura aktualizuj¹ca cenê produktu    
+
     PROCEDURE aktualizuj_cene (p_nazwa_produktu IN VARCHAR2 , p_wersja IN VARCHAR2, o_ile IN NUMBER) AS
         CURSOR c_produkty IS
             SELECT ID_produktu, cena_sprzedazy 
@@ -44,6 +46,8 @@ create or replace PACKAGE BODY obsluga_bazy AS
         CLOSE c_produkty;
     END;
 
+--2 Procedura aktualizuj¹ca has³a pracowników
+
     PROCEDURE aktualizuj_hasla AS
         CURSOR c_pracownicy IS
         SELECT ID_pracownika, login FROM pracownicy;
@@ -63,6 +67,8 @@ create or replace PACKAGE BODY obsluga_bazy AS
         END LOOP;
         CLOSE c_pracownicy;
     END;
+
+--3 Procedura wyœwietlaj¹ca klientów z danego miasta
 
     PROCEDURE klienci_miasta(p_miasto IN VARCHAR2)
     AS
@@ -84,6 +90,8 @@ create or replace PACKAGE BODY obsluga_bazy AS
         END LOOP;
         CLOSE c_klienci;
     END;
+
+--4 Procedura wyœwietlaj¹ca produkty i producentów z danej kategorii
 
     PROCEDURE produkty_kategorie (p_nazwa_kategorii IN VARCHAR2) AS
         CURSOR c_produkty IS
@@ -107,6 +115,7 @@ create or replace PACKAGE BODY obsluga_bazy AS
         CLOSE c_produkty;
     END;
 
+--5 Procedura generuj¹ca podsumownie okresowe
 
    PROCEDURE podliczenie_okresowe(Data_poczatkowa VARCHAR2, Data_koncowa VARCHAR2) IS
       netto NUMBER(10,2);
@@ -123,6 +132,8 @@ create or replace PACKAGE BODY obsluga_bazy AS
       DBMS_OUTPUT.PUT_LINE('Zarobek brutto w podanym okresie: '|| brutto || ' Z£.');
       DBMS_OUTPUT.PUT_LINE('VAT do zaplacenia w podanym okresie: ' || vat || ' Z£.');
     END;
+
+--6 Funkcja licz¹ca sumê jak¹ wydali klienci w danej kategorii
 
     FUNCTION kategorie_klienci(p_ID_kategorii IN NUMBER)
     RETURN SYS_REFCURSOR
@@ -143,6 +154,8 @@ create or replace PACKAGE BODY obsluga_bazy AS
         ORDER BY suma DESC;
         RETURN v_najlepsi_klienci;
     END;
+
+--7 Procedura wspó³pracuje z funkcj¹ kategorie_klienci
 
     PROCEDURE wyswietl_klientow(numer_kategorii IN NUMBER) AS
         BEGIN
@@ -165,26 +178,30 @@ create or replace PACKAGE BODY obsluga_bazy AS
             END;
         END;
 
-        PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena_sprzedazy IN NUMBER)IS
-            BEGIN
-                INSERT INTO produkty (id_produktu, id_kategorie_producenci, nazwa_produktu, wersja, cena_sprzedazy)
-                VALUES(PRODUKTY_SEQ.nextval, v_id_kategorii, v_nazwa, v_wersja, v_cena_sprzedazy);
-        END;
+--8 Pakiet zapewniaj¹cy obs³ugê tabeli produkty
 
-        PROCEDURE usun_produkt(v_id_produktu IN NUMBER) IS
-            BEGIN
-                DELETE FROM produkty WHERE id_produktu = v_id_produktu;
-        END;
+     PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN  VARCHAR2,v_wersjaINVARCHAR2,v_cena_sprzedazy IN NUMBER)IS
+         BEGIN
+             INSERT INTO produkty (id_produktu,id_kategorie_producenci,nazwa_produktu,wersja,cena_sprzedazy)
+             VALUES(PRODUKTY_SEQ.nextval, v_id_kategorii, v_nazwa, v_wersja, v_cena_sprzedazy);
+     END;
+     
+     PROCEDURE usun_produkt(v_id_produktu IN NUMBER) IS
+         BEGIN
+             DELETE FROM produkty WHERE id_produktu = v_id_produktu;
+     END;
+     
+     PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja INVARCHAR2,v_cenIN   NUMBER)  IS
+         BEGIN
+             UPDATE produkty 
+             SET nazwa_produktu = v_nazwa, wersja= v_wersja, cena_sprzedazy = v_cena 
+             WHERE id_produktu = v_id_produktu;
+     END;      
 
-        PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena IN  NUMBER)  IS
-            BEGIN
-                UPDATE produkty 
-                SET nazwa_produktu = v_nazwa, wersja= v_wersja, cena_sprzedazy = v_cena 
-                WHERE id_produktu = v_id_produktu;
-        END;      
+--9 Procedura sprawdza daty w tabeli zamowienia dla podanego id_zamowienia
 
-        PROCEDURE wyjatki_zamowienia(p_id IN NUMBER) AS
-    niepoprawna_data EXCEPTION;
+    PROCEDURE wyjatki_zamowienia(p_id IN NUMBER) AS
+      niepoprawna_data EXCEPTION;
 
     BEGIN
         DECLARE
@@ -215,6 +232,8 @@ create or replace PACKAGE BODY obsluga_bazy AS
         END;
     END;
 
+--10 i 11 Procedury potrzebne do obs³ugi wyzwalacza
+
     PROCEDURE zwolnij_pracownika(n_id_pracownika IN NUMBER) AS
      BEGIN
          UPDATE pracownicy
@@ -238,5 +257,5 @@ create or replace PACKAGE BODY obsluga_bazy AS
      END;
 
 END obsluga_bazy;
-    
-    
+
+COMMIT;

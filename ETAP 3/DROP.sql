@@ -25,6 +25,12 @@ DROP PROCEDURE usun_produkt;
 
 DROP FUNCTION kategorie_klienci;
 
+
+
+DROP PACKAGE BODY obsluga_bazy;
+
+DROP PACKAGE obsluga_bazy;
+
 DROP TRIGGER trg_prevent_delete_pracownicy;
 
 DROP TRIGGER trg_klienci_bi;
