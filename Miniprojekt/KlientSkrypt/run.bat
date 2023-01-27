@@ -1,5 +1,5 @@
 cd sql
-sqlplus c##Marco/toor@localhost/XE @main.sql
+sqlplus hr/hr@localhost/XE @main.sql
 cd ..
 pause
 cls
