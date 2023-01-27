@@ -20,7 +20,7 @@ END obsluga_bazy;
 
 /
 
-create or replace PACKAGE BODY obsluga_bazy AS
+CREATE OR REPLACE PACKAGE BODY obsluga_bazy AS
 
 --1 Procedura aktualizuj¹ca cenê produktu    
 
@@ -70,8 +70,7 @@ create or replace PACKAGE BODY obsluga_bazy AS
 
 --3 Procedura wyœwietlaj¹ca klientów z danego miasta
 
-    PROCEDURE klienci_miasta(p_miasto IN VARCHAR2)
-    AS
+    PROCEDURE klienci_miasta(p_miasto IN VARCHAR2) AS
         CURSOR c_klienci (p_nazwa_miasta IN VARCHAR2) IS
         SELECT klienci.nazwisko, klienci.imie, klienci.id_klienta, adresy.miasto
         FROM klienci
@@ -86,7 +85,7 @@ create or replace PACKAGE BODY obsluga_bazy AS
         LOOP
             FETCH c_klienci INTO v_nazwisko, v_imie, v_id, v_nazwa_miasta;
             EXIT WHEN c_klienci%NOTFOUND;
-            DBMS_OUTPUT.PUT_LINE('Klient: ' || v_nazwisko || ' ' || v_imie || ' Miasto: ' || v_nazwa_miasta || ' ID klienta: ' || v_id);
+            DBMS_OUTPUT.PUT_LINE('Klient: ' || v_nazwisko || ' ' || v_imie || ' Miasto: ' || v_nazwa_miasta || ' ID klienta: ' ||   v_id);
         END LOOP;
         CLOSE c_klienci;
     END;
@@ -141,7 +140,7 @@ create or replace PACKAGE BODY obsluga_bazy AS
         v_najlepsi_klienci SYS_REFCURSOR;
     BEGIN
         OPEN v_najlepsi_klienci FOR
-        SELECT klienci.nazwisko, klienci.nazwa_firmy, SUM(faktura.wartosc_brutto) as suma, kategoria.nazwa_kategorii
+        SELECT klienci.nazwisko, klienci.nazwa_firmy, SUM(faktura.wartosc_brutto) AS suma, kategoria.nazwa_kategorii
         FROM klienci
             JOIN zamowienie ON klienci.ID_klienta = zamowienie.ID_klienta
             JOIN zamowienie_produkty ON zamowienie.id_klienta = zamowienie.id_klienta
@@ -180,7 +179,7 @@ create or replace PACKAGE BODY obsluga_bazy AS
 
 --8 Pakiet zapewniaj¹cy obs³ugê tabeli produkty
 
-     PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN  VARCHAR2,v_wersjaINVARCHAR2,v_cena_sprzedazy IN NUMBER)IS
+     PROCEDURE dodaj_produkt(v_id_kategorii IN NUMBER, v_nazwa IN  VARCHAR2,v_wersja IN VARCHAR2,v_cena_sprzedazy IN NUMBER) IS
          BEGIN
              INSERT INTO produkty (id_produktu,id_kategorie_producenci,nazwa_produktu,wersja,cena_sprzedazy)
              VALUES(PRODUKTY_SEQ.nextval, v_id_kategorii, v_nazwa, v_wersja, v_cena_sprzedazy);
@@ -191,7 +190,7 @@ create or replace PACKAGE BODY obsluga_bazy AS
              DELETE FROM produkty WHERE id_produktu = v_id_produktu;
      END;
      
-     PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja INVARCHAR2,v_cenIN   NUMBER)  IS
+     PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2,v_cena IN NUMBER) IS
          BEGIN
              UPDATE produkty 
              SET nazwa_produktu = v_nazwa, wersja= v_wersja, cena_sprzedazy = v_cena 
@@ -257,6 +256,8 @@ create or replace PACKAGE BODY obsluga_bazy AS
      END;
 
 END obsluga_bazy;
+
+/
 
 COMMIT;
 

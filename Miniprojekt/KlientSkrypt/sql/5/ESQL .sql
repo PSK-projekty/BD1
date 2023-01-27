@@ -1,0 +1,7 @@
+PROMPT
+SET ECHO ON
+
+SELECT * FROM do_zamowienia;
+
+SET ECHO OFF
+PROMPT

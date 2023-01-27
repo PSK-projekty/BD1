@@ -1,0 +1,7 @@
+PROMPT
+SET ECHO ON
+
+SELECT * FROM najtansze_produkty;
+
+SET ECHO OFF
+PROMPT

@@ -1,0 +1,7 @@
+PROMPT
+SET ECHO ON
+
+SELECT * FROM statystyka_pracownikow;
+
+SET ECHO OFF
+PROMPT

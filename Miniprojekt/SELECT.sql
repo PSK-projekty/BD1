@@ -232,7 +232,7 @@
             
 13. Zapytanie które jako parametr przyjmuje nazwê firmy klienta np. Buma. 
 
-        SELECT zamowienie.id_zamowienia, klienci.nazwa_firmy, produkty.nazwa_produktu, producenci.nazwa_producenta,         zamowienie.data_zlozenia_zamowienia
+        SELECT zamowienie.id_zamowienia, klienci.nazwa_firmy, produkty.nazwa_produktu, producenci.nazwa_producenta, zamowienie.data_zlozenia_zamowienia
         FROM zamowienie
             JOIN klienci ON zamowienie.id_klienta = klienci.id_klienta
             JOIN zamowienie_produkty ON zamowienie.id_zamowienia = zamowienie_produkty.id_zamowienia

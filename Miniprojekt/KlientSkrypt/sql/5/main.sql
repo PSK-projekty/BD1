@@ -27,7 +27,13 @@ PROMPT C. Zapytanie wyswietlajace w jaki dzien tygodnia zlozono najwiecej zamowi
 PROMPT
 PROMPT D. Zapytanie ktore jako parametr przyjmuje nazwe firmy klienta;
 PROMPT
-ACCEPT wybor CHAR FORMAT 'A1' DEFAULT '0' PROMPT 'WYBIERZ NR OPCJI OD 1 DO D: '
+PROMPT E. Wyœwietlanie widoku do_zamowienia;
+PROMPT
+PROMPT F. Wyœwietlanie widoku najtansze_produkty;
+PROMPT
+PROMPT G. Wyœwietlanie widoku statystyka_pracownikow;
+PROMPT
+ACCEPT wybor CHAR FORMAT 'A1' DEFAULT '0' PROMPT 'WYBIERZ NR OPCJI OD 1 DO G: '
 $CLS
 DEFINE CURR_DIR='&1'
 PROMPT wybor = &wybor
