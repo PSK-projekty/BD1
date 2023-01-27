@@ -84,7 +84,7 @@
         );
 
 
-5. Zapytanie wyœwietlaj¹ce id oraz nazwê produktów których cena znajduje siê w przedziale 50 do 100z³ oraz jednoczeœnie dena nie jest wy¿sza ni¿ 75 i ni¿sza ni¿ 60z³.
+5. Zapytanie wyœwietlaj¹ce id oraz nazwê produktów których cena znajduje siê w przedziale 50 do 100z³ oraz jednoczeœnie cena nie jest wy¿sza ni¿ 75 i ni¿sza ni¿ 60z³.
 
         SELECT ID_produktu, nazwa_produktu
         FROM(
@@ -230,7 +230,7 @@
             );
  
             
-13. Zapytanie które jako parametr przyjmuje nazwê firmy klienta.
+13. Zapytanie które jako parametr przyjmuje nazwê firmy klienta np. Buma. 
 
         SELECT zamowienie.id_zamowienia, klienci.nazwa_firmy, produkty.nazwa_produktu, producenci.nazwa_producenta,         zamowienie.data_zlozenia_zamowienia
         FROM zamowienie
@@ -241,3 +241,15 @@
             JOIN producenci ON kategorie_producenci.id_producenta = producenci.id_producenta
         WHERE klienci.nazwa_firmy LIKE :nazwa
         ORDER BY zamowienie.id_zamowienia DESC;
+
+14. Wyœwietlanie widoku do_zamowienia
+    
+        SELECT * FROM do_zamowienia;
+
+15. Wyœwietlanie widoku najtansze_produkty
+        
+        SELECT * FROM najtansze_produkty;
+
+16. Wyœwietlanie widoku statystyka_pracownikow
+
+        SELECT * FROM statystyka_pracownikow;

@@ -1,3 +1,13 @@
+DROP TRIGGER trg_prevent_delete_pracownicy;
+
+DROP TRIGGER trg_klienci_bi;
+
+DROP TRIGGER update_data_wysylki;
+
+DROP TRIGGER trg_faktura_bi;
+
+DROP TRIGGER trg_update_pracownicy;
+
 DROP TABLE temp_pracownicy CASCADE CONSTRAINTS;
 
 DROP TABLE pozycje_faktury CASCADE CONSTRAINTS;
@@ -61,15 +71,5 @@ DROP VIEW do_zamowienia;
 DROP PACKAGE BODY obsluga_bazy;
 
 DROP PACKAGE obsluga_bazy;
-
-DROP TRIGGER trg_prevent_delete_pracownicy;
-
-DROP TRIGGER trg_klienci_bi;
-
-DROP TRIGGER update_data_wysylki;
-
-DROP TRIGGER trg_faktura_bi;
-
-DROP TRIGGER trg_update_pracownicy;
 
 COMMIT;

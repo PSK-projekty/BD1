@@ -241,3 +241,15 @@
             JOIN producenci ON kategorie_producenci.id_producenta = producenci.id_producenta
         WHERE klienci.nazwa_firmy LIKE :nazwa
         ORDER BY zamowienie.id_zamowienia DESC;
+
+14. Wyœwietlanie widoku do_zamowienia
+    
+        SELECT * FROM do_zamowienia;
+
+15. Wyœwietlanie widoku najtansze_produkty
+        
+        SELECT * FROM najtansze_produkty;
+
+16. Wyœwietlanie widoku statystyka_pracownikow
+
+        SELECT * FROM statystyka_pracownikow;

@@ -17,19 +17,19 @@ SET SERVEROUTPUT ON;
                 FETCH c_produkty
                 INTO v_produkt_id, v_aktualna_cena;
                 EXIT WHEN c_produkty%NOTFOUND;
-    
+
                 UPDATE produkty 
                 SET cena_sprzedazy = v_aktualna_cena + o_ile 
                 WHERE ID_produktu = v_produkt_id;
             END LOOP;
         CLOSE c_produkty;
     END;
-    /
 
+    /
 
 --2 Procedura aktualizuj¹ca has³a pracowników
 
-    CREATE OR REPLACE PROCEDURE aktualizuj_hasla AS
+    CREATE OR REPLACE PROCEDURE PROCEDURE aktualizuj_hasla AS
         CURSOR c_pracownicy IS
         SELECT ID_pracownika, login FROM pracownicy;
         v_id_pracownika NUMBER;
@@ -48,13 +48,12 @@ SET SERVEROUTPUT ON;
         END LOOP;
         CLOSE c_pracownicy;
     END;
-    /
 
+    /
 
 --3 Procedura wyœwietlaj¹ca klientów z danego miasta
 
-    CREATE OR REPLACE PROCEDURE klienci_miasta(p_miasto IN VARCHAR2)
-    AS
+    CREATE OR REPLACE PROCEDURE klienci_miasta(p_miasto IN VARCHAR2) AS
         CURSOR c_klienci (p_nazwa_miasta IN VARCHAR2) IS
         SELECT klienci.nazwisko, klienci.imie, klienci.id_klienta, adresy.miasto
         FROM klienci
@@ -69,12 +68,12 @@ SET SERVEROUTPUT ON;
         LOOP
             FETCH c_klienci INTO v_nazwisko, v_imie, v_id, v_nazwa_miasta;
             EXIT WHEN c_klienci%NOTFOUND;
-            DBMS_OUTPUT.PUT_LINE('Klient: ' || v_nazwisko || ' ' || v_imie || ' Miasto: ' || v_nazwa_miasta || ' ID klienta: ' || v_id);
+            DBMS_OUTPUT.PUT_LINE('Klient: ' || v_nazwisko || ' ' || v_imie || ' Miasto: ' || v_nazwa_miasta || ' ID klienta: ' ||   v_id);
         END LOOP;
         CLOSE c_klienci;
     END;
     /
- 
+
 
 --4 Procedura wyœwietlaj¹ca produkty i producentów z danej kategorii
 
@@ -86,7 +85,7 @@ SET SERVEROUTPUT ON;
             JOIN producenci ON kategorie_producenci.ID_producenta = producenci.ID_producenta
             JOIN kategoria ON kategorie_producenci.ID_kategorii = kategoria.ID_kategorii
             WHERE kategoria.nazwa_kategorii = p_nazwa_kategorii;
-    
+
             v_nazwa_produktu VARCHAR2(45);
             v_nazwa_producenta VARCHAR2(45);
     BEGIN
@@ -113,13 +112,12 @@ SET SERVEROUTPUT ON;
       INTO brutto, netto
       FROM faktura
       WHERE data_wystawienia BETWEEN TO_DATE(Data_poczatkowa,'DD.MM.YYYY') AND TO_DATE(Data_koncowa,'DD.MM.YYYY');
-    
+
       VAT:=BRUTTO-NETTO;
       DBMS_OUTPUT.PUT_LINE('Zarobek netto w podanym okresie: ' || netto || ' Z£.');
       DBMS_OUTPUT.PUT_LINE('Zarobek brutto w podanym okresie: '|| brutto || ' Z£.');
       DBMS_OUTPUT.PUT_LINE('VAT do zaplacenia w podanym okresie: ' || vat || ' Z£.');
     END;
-    /
 
 
 --6 Funkcja licz¹ca sumê jak¹ wydali klienci w danej kategorii
@@ -130,7 +128,7 @@ SET SERVEROUTPUT ON;
         v_najlepsi_klienci SYS_REFCURSOR;
     BEGIN
         OPEN v_najlepsi_klienci FOR
-        SELECT klienci.nazwisko, klienci.nazwa_firmy, SUM(faktura.wartosc_brutto) as suma, kategoria.nazwa_kategorii
+        SELECT klienci.nazwisko, klienci.nazwa_firmy, SUM(faktura.wartosc_brutto) AS suma, kategoria.nazwa_kategorii
         FROM klienci
             JOIN zamowienie ON klienci.ID_klienta = zamowienie.ID_klienta
             JOIN zamowienie_produkty ON zamowienie.id_klienta = zamowienie.id_klienta
@@ -168,7 +166,8 @@ SET SERVEROUTPUT ON;
                 CLOSE v_cursor;
             END;
         END;
-    /   
+
+        /
    
     
 --8 Pakiet zapewniaj¹cy obs³ugê tabeli produkty
@@ -188,7 +187,7 @@ SET SERVEROUTPUT ON;
 
         /
             
-        CREATE OR REPLACE PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena IN  NUMBER)  IS
+        CREATE OR REPLACE PROCEDURE aktualizuj_produkt(v_id_produktu IN NUMBER, v_nazwa IN VARCHAR2, v_wersja IN VARCHAR2, v_cena IN NUMBER) IS
             BEGIN
                 UPDATE produkty 
                 SET nazwa_produktu = v_nazwa, wersja= v_wersja, cena_sprzedazy = v_cena 

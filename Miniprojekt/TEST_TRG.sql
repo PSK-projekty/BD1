@@ -21,5 +21,5 @@ INSERT INTO faktura (id_faktury, ID_klienta, id_pracownika ,nr_faktury, data_wys
 VALUES (FAKTURA_SEQ.nextval, 5, 5, 12000, TO_DATE('02.10.2013','DD.MM.YYYY'),634.15, NULL, 'mBank', 'BLIK');
 -----------------------------------------------
 
-EXEC zwolnij_pracownika(4);
-EXEC usun_login_haslo;
+EXEC obsluga_bazy.zwolnij_pracownika(4);
+EXEC obsluga_bazy.usun_login_haslo;
