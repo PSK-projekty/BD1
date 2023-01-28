@@ -67,9 +67,9 @@ CREATE TABLE produkty (
     CHECK (cena_sprzedazy>0)
 );
 
-CREATE TABLE zamowieniee_produkty (
+CREATE TABLE zamowienie_produkty (
     ID_zamowienia_produkty NUMBER(6) CONSTRAINT zamowienie_produkty_PK PRIMARY KEY,
-    ID_zamowienia NUMBER(6) NOT NULL CONSTRAINT zamowienie_produkty_zamowienie_FK REFERENCES zamowieniee(ID_zamowienia),
+    ID_zamowienia NUMBER(6) NOT NULL,
     ID_produktu NUMBER(6) NOT NULL CONSTRAINT zamowienie_produkty_produkty_FK REFERENCES produkty(ID_produktu)
 );
 
@@ -77,7 +77,7 @@ CREATE TABLE pracownicy (
     ID_pracownika NUMBER(2) CONSTRAINT pracownik_PK PRIMARY KEY,
     ID_adres NUMBER(2) NOT NULL CONSTRAINT pracownik_adres_FK REFERENCES adresy(ID_adres),
     ID_kontakt NUMBER(2) NOT NULL CONSTRAINT pracownik_kontakt_FK REFERENCES kontakty(ID_kontakt),
-    login VARCHAR2(45) UNIQUE,
+    login VARCHAR2(45),
     haslo VARCHAR2(45),
     imie VARCHAR2(45) NOT NULL,
     nazwisko VARCHAR2(45) NOT NULL,
