@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Miniprojekt"
+    "\\Miniprojekt",
+    "\\Miniprojekt\\KlientSkrypt\\sql"
   ],
-  "SelectedNode": "\\Miniprojekt\\SELECT.sql",
+  "SelectedNode": "\\Miniprojekt\\INSERT.sql",
   "PreviewInSolutionExplorer": false
 }

@@ -1635,7 +1635,7 @@
 									"top": 525,
 									"width": 254.6689453125,
 									"height": 13,
-									"text": "POZYCJE_FAKTURY_SPRZEDAŻY"
+									"text": "POZYCJE_FAKTURY"
 								},
 								{
 									"_type": "ERDColumnCompartmentView",
@@ -4261,7 +4261,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGEcZDySyaazCc="
 					},
-					"name": "POZYCJE_FAKTURY_SPRZEDAŻY",
+					"name": "POZYCJE_FAKTURY",
 					"columns": [
 						{
 							"_type": "ERDColumn",
