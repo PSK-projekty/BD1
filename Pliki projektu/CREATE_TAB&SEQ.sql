@@ -67,7 +67,7 @@ CREATE TABLE produkty (
     CHECK (cena_sprzedazy>0)
 );
 
-CREATE TABLE zamowienie_produkty (
+CREATE TABLE zamowieniee_produkty (
     ID_zamowienia_produkty NUMBER(6) CONSTRAINT zamowienie_produkty_PK PRIMARY KEY,
     ID_zamowienia NUMBER(6) NOT NULL CONSTRAINT zamowienie_produkty_zamowienie_FK REFERENCES zamowieniee(ID_zamowienia),
     ID_produktu NUMBER(6) NOT NULL CONSTRAINT zamowienie_produkty_produkty_FK REFERENCES produkty(ID_produktu)
